@@ -1,0 +1,10 @@
+/usr/local/lib/libklib.a
+/usr/local/include/klib/ktypes.h
+/usr/local/include/klib/kmalloc.h
+/usr/local/include/klib/kfile.h
+/usr/local/include/klib/kprint.h
+/usr/local/include/klib/kstring.h
+/usr/local/include/klib/os.h
+/usr/local/lib/cmake/klib/klibTargets.cmake
+/usr/local/lib/cmake/klib/klibTargets-noconfig.cmake
+/usr/local/lib/cmake/klib/klibConfig.cmake
