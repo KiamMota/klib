@@ -1,0 +1,10 @@
+^C:\USERS\KIMASPC\ME\KLIB\B\CMAKEFILES\47377BB494500969704BB70457211906\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/kimaspc/me/klib -BC:/Users/kimaspc/me/klib/b --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/kimaspc/me/klib/b/klib.slnx
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

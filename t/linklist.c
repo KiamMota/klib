@@ -1,4 +1,4 @@
-#include "../klinklist.h"
+#include "types/klinklist.h"
 #include <stdio.h>
 
 int main(void) {

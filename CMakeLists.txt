@@ -1,45 +1,90 @@
-cmake_minimum_required(VERSION 3.16)
-project(klib LANGUAGES C)
+cmake_minimum_required(VERSION 3.20)
 
-set(SRC
-  kfile.c
-  kprint.c
-  kstring.c
-  os.c
+project(klib
+    VERSION 0.1.0
+    LANGUAGES C
 )
 
-add_library(klib STATIC ${SRC})
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
 
-# Define os arquivos de cabeçalho (.h) que precisam ser públicos
-set_target_properties(klib PROPERTIES
-  PUBLIC_HEADER "ktypes.h;kmalloc.h;kfile.h;kprint.h;kstring.h;os.h" # Substitua pelos nomes reais dos seus .h
+
+
+# Library
+
+add_library(klib STATIC
+    types/kfile.c
+    types/klinklist.c
+    types/kstring.c
+    types/kprint.c
+    types/ksocket.c
 )
 
-target_include_directories(klib PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<INSTALL_INTERFACE:include>
+if(WIN32)
+    target_link_libraries(klib PUBLIC ws2_32)
+endif()
+
+target_include_directories(klib
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/types>
+        $<INSTALL_INTERFACE:include>
 )
 
-include(GNUInstallDirs)
+
+# Warnings
+
+target_compile_options(klib PRIVATE
+    $<$<C_COMPILER_ID:MSVC>:/W4>
+    $<$<NOT:$<C_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic>
+)
+
+
+# Tests
+
+file(GLOB TEST_SOURCES
+    CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/t/*.c
+)
+
+foreach(TEST_SOURCE ${TEST_SOURCES})
+
+    get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
+
+    add_executable(${TEST_NAME}
+        ${TEST_SOURCE}
+    )
+
+    target_link_libraries(${TEST_NAME}
+        PRIVATE klib
+    )
+
+    target_include_directories(${TEST_NAME}
+        PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/types
+    )
+
+endforeach()
+
+
+
+# Installation
 
 install(TARGETS klib
-  EXPORT klibTargets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}      # Geralmente /usr/local/lib
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/klib # Geralmente /usr/local/include/klib
+    ARCHIVE DESTINATION lib
 )
 
-install(EXPORT klibTargets
-  FILE klibTargets.cmake
-  NAMESPACE klib::
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/klib
-)
+install(FILES
+    kmalloc.h
+    macros.h
 
-include(CMakePackageConfigHelpers)
-configure_package_config_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/klibConfig.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/klibConfig.cmake
-  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/klib
-)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/klibConfig.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/klib
+    types/kfile.h
+    types/klinklist.h
+    types/kstring.h
+    types/kprint.h
+    types/ksocket.h
+
+    DESTINATION include/klib
 )
