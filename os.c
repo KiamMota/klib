@@ -1,8 +1,8 @@
 #include "os.h"
 
-Os GetOs(void)
+KOs GetOs(void)
 {
-    Os os = {
+    KOs os = {
         .OS = OS_UNKNOWN,
         .Arch = ARCH_UNKNOWN,
         .Compiler = COMPILER_UNKNOWN
