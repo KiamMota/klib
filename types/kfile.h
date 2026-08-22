@@ -5,6 +5,7 @@
 #include "kstring.h"
 #include "ktypes.h"
 
+#include <stddef.h>
 #include <stdio.h>
 
 typedef enum {
@@ -36,6 +37,7 @@ KFileStat kfilestat_new(const char *path);
 KFile *kfile_new();
 KFile *kfile_from(const char *path);
 KFile *kfile_open(const char *path, KFileMode mode);
+size_t kfile_len(KFile* file);
 void kfile_close(KFile *file);
 
 bool kfile_create(KFile *file);

@@ -3,6 +3,7 @@
 #include "kstring.h"
 #include "ktypes.h"
 
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -192,6 +193,7 @@ void kfile_close(KFile *file) {
 
   KFREE(file);
 }
+size_t kfile_len(KFile *file) { return file->stat.size; }
 
 bool kfile_create(KFile *file) {
   if (!file)
