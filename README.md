@@ -17,7 +17,7 @@ Each module is a single `.h` and `.c` pair. Use only what you need.
 ## Installation
 
 ```sh
-./install.sh
+curl -fsSL https://raw.githubusercontent.com/kiammota/klib/main/install.sh | sh
 ```
 
 This runs `cmake`, `make`, and `sudo make install`.
