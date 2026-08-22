@@ -1,4 +1,5 @@
 #include "kfile.h"
+#include "kbuffer.h"
 #include "kmalloc.h"
 #include "kstring.h"
 #include "ktypes.h"
@@ -244,26 +245,20 @@ bool kfile_delete(KFile *file) {
   return success;
 }
 
-bool kfile_read(KFile *file, KString *str, usize size) {
-  if (!file || !str)
-    return false;
+bool kfile_read(KFile *file, KBuffer* buff) {
+    if (!file)
+        return NULL;
 
-  char *buffer = KCALLOC(char, size + 1);
-  if (!buffer)
-    return false;
+    KBuffer *buf = kbuffer_from(NULL, file->stat.size);
+    if (!buf)
+        return NULL;
 
-  bool ret = kfile_read_raw(file, buffer, size);
+    if (!kfile_read_raw(file, kbuffer_data(buf), kbuffer_len(buf))) {
+        kbuffer_free(&buf);
+        return NULL;
+    }
 
-  if (!ret) {
-    kfree(buffer);
-    return false;
-  }
-
-  kstring_clear(str);
-  kstring_append(str, buffer);
-
-  kfree(buffer);
-  return true;
+    return buf;
 }
 
 bool kfile_read_raw(KFile *file, void *buffer, usize size) {
