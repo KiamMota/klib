@@ -33,14 +33,15 @@ typedef struct {
 
 KFileStat kfilestat_new(const char *path);
 
-KFile *kfile_init(const char *path);
+KFile *kfile_new();
+KFile *kfile_from(const char *path);
 KFile *kfile_open(const char *path, KFileMode mode);
 void kfile_close(KFile *file);
 
 bool kfile_create(KFile *file);
 bool kfile_delete(KFile *file);
 bool kfile_read_raw(KFile *file, void *buffer, usize size);
-bool kfile_read(KFile* file, KString* str, usize size);
+bool kfile_read(KFile *file, KString *str, usize size);
 bool kfile_write_cstr(KFile *file, const void *buffer, usize size);
 bool kfile_write(KFile *file, const char *string);
 bool kfile_rename(KFile *file, const char *path);
