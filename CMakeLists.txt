@@ -15,6 +15,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Library
 
 add_library(klib STATIC
+    types/kbuffer.c
+    
     types/kfile.c
     types/klinklist.c
     types/kstring.c

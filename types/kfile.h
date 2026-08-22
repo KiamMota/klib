@@ -38,15 +38,20 @@ KFileStat kfilestat_new(const char *path);
 KFile *kfile_new();
 KFile *kfile_from(const char *path);
 KFile *kfile_open(const char *path, KFileMode mode);
-size_t kfile_len(KFile* file);
 void kfile_close(KFile *file);
+
+size_t kfile_len(KFile* file);
+const KString* kfile_name(KFile* f);
+const KString* kfile_path(KFile* f);
+const KFileStat* kfile_stat(KFile* f);
+
 
 bool kfile_create(KFile *file);
 bool kfile_delete(KFile *file);
 bool kfile_read_raw(KFile *file, void *buffer, usize size);
-bool kfile_read(KFile *file, KBuffer* buff);
-bool kfile_write_cstr(KFile *file, const void *buffer, usize size);
-bool kfile_write(KFile *file, const char *string);
+KBuffer* kfile_read(KFile* f);
+bool kfile_write_raw(KFile *file, const void *buffer, usize size);
+bool kfile_write(KFile *file, KBuffer* b);
 bool kfile_rename(KFile *file, const char *path);
 
 #endif

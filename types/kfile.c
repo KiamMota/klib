@@ -171,7 +171,6 @@ KFile *kfile_open(const char *path, KFileMode mode) {
 
   /*
    * READ_WRITE não cria o arquivo caso ele não exista.
-   * Se quiser esse comportamento, use "w+b".
    */
   if (!file->handle) {
     KFREE(file);
@@ -195,6 +194,24 @@ void kfile_close(KFile *file) {
   KFREE(file);
 }
 size_t kfile_len(KFile *file) { return file->stat.size; }
+
+const KString *kfile_name(KFile *f) {
+  if (!f)
+    return NULL;
+  return &f->name;
+}
+
+const KString *kfile_path(KFile *f) {
+  if (!f)
+    return NULL;
+  return &f->path;
+}
+
+const KFileStat *kfile_stat(KFile *f) {
+  if (!f)
+    return NULL;
+  return &f->stat;
+}
 
 bool kfile_create(KFile *file) {
   if (!file)
@@ -245,20 +262,20 @@ bool kfile_delete(KFile *file) {
   return success;
 }
 
-bool kfile_read(KFile *file, KBuffer* buff) {
-    if (!file)
-        return NULL;
+KBuffer *kfile_read(KFile *file) {
+  if (!file)
+    return NULL;
 
-    KBuffer *buf = kbuffer_from(NULL, file->stat.size);
-    if (!buf)
-        return NULL;
+  KBuffer *buf = kbuffer_from(NULL, file->stat.size);
+  if (!buf)
+    return NULL;
 
-    if (!kfile_read_raw(file, kbuffer_data(buf), kbuffer_len(buf))) {
-        kbuffer_free(&buf);
-        return NULL;
-    }
+  if (!kfile_read_raw(file, kbuffer_data(buf), kbuffer_len(buf))) {
+    kbuffer_free(&buf);
+    return NULL;
+  }
 
-    return buf;
+  return buf;
 }
 
 bool kfile_read_raw(KFile *file, void *buffer, usize size) {
@@ -273,13 +290,13 @@ bool kfile_read_raw(KFile *file, void *buffer, usize size) {
   return read == size;
 }
 
-bool kfile_write(KFile *file, const char *string) {
-  if (!file || !string)
+bool kfile_write(KFile *file, KBuffer *buf) {
+  if (!file || !buf)
     return false;
-  return kfile_write_cstr(file, string, strlen(string));
+  return kfile_write_raw(file, kbuffer_data(buf), kbuffer_len(buf));
 }
 
-bool kfile_write_cstr(KFile *file, const void *buffer, usize size) {
+bool kfile_write_raw(KFile *file, const void *buffer, usize size) {
   if (!file || !buffer || size == 0)
     return false;
 
