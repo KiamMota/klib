@@ -20,6 +20,10 @@ Each module is a single `.h` and `.c` pair. Use only what you need.
 curl -fsSL https://raw.githubusercontent.com/kiammota/klib/main/install.sh | sh
 ```
 
+``` powershell
+wget -qO- https://raw.githubusercontent.com/kiammota/klib/main/install.sh | sh
+```
+
 This runs `cmake`, `make`, and `sudo make install`.
 
 ---
