@@ -3,6 +3,7 @@ build/
 bin/
 out/
 b/
+.vs/
 
 # Objetos e binários
 *.o
