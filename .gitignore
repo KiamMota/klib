@@ -2,6 +2,7 @@
 build/
 bin/
 out/
+b/
 
 # Objetos e binários
 *.o

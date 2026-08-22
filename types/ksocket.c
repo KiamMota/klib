@@ -38,7 +38,7 @@ KSocket* ksocket_new(const char* ip_address, int port) {
     }
 
 #else
-    sock->handle = ::socket(AF_INET, SOCK_STREAM, 0);
+    sock->handle = socket(AF_INET, SOCK_STREAM, 0);
 
     if (sock->handle < 0) {
         KFREE(sock);
@@ -86,8 +86,6 @@ bool ksocket_free(KSocket** socket) {
     return true;
 }
 bool ksocket_bind(KSocket* sock) {
-    if (!socket)
-        return false;
 
     struct sockaddr_in address = { 0 };
 
@@ -115,9 +113,6 @@ bool ksocket_bind(KSocket* sock) {
 }
 
 bool ksocket_listen(KSocket* sock, int backlog) {
-    if (!socket || backlog < 1)
-        return false;
-
     return listen(sock->handle, backlog) == 0;
 }
 

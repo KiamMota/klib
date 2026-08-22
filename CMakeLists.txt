@@ -78,7 +78,7 @@ install(TARGETS klib
 
 install(FILES
     kmalloc.h
-    macros.h
+    kmacros.h
 
     types/kfile.h
     types/klinklist.h
