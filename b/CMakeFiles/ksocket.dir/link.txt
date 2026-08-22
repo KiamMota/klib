@@ -1,1 +1,0 @@
-/usr/bin/cc -Wl,--dependency-file=CMakeFiles/ksocket.dir/link.d CMakeFiles/ksocket.dir/t/ksocket.c.o -o ksocket  libklib.a

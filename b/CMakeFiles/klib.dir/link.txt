@@ -1,2 +1,0 @@
-/usr/bin/ar qc libklib.a CMakeFiles/klib.dir/types/kfile.c.o CMakeFiles/klib.dir/types/klinklist.c.o CMakeFiles/klib.dir/types/kstring.c.o CMakeFiles/klib.dir/types/kprint.c.o CMakeFiles/klib.dir/types/ksocket.c.o
-/usr/bin/ranlib libklib.a
