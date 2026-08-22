@@ -47,6 +47,14 @@ KString kstring_init(void) {
   return str;
 }
 
+void kstring_uninit(KString *s) {
+    if (!s)
+        return;
+    KFREE(s->_data_);
+    s->_data_ = NULL;
+    s->_len_  = 0;
+}
+
 int kstring_free(KString **km_str) {
   if (!*km_str)
     return 0;

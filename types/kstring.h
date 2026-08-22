@@ -116,6 +116,7 @@ static inline void _km_string_cpy(KString *t, const char *src) {
 
 KString *kstring_new();
 KString kstring_init();
+void kstring_uninit(KString* k);
 KString kstring_from_s(const char *str);
 int kstring_free(KString **km_str);
 size_t kstring_len(const KString *str);

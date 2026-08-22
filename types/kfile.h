@@ -38,7 +38,8 @@ KFileStat kfilestat_new(const char *path);
 KFile *kfile_new();
 KFile *kfile_from(const char *path);
 KFile *kfile_open(const char *path, KFileMode mode);
-void kfile_close(KFile *file);
+void kfile_close(KFile *f);
+bool kfile_free(KFile **file);
 
 size_t kfile_len(KFile* file);
 const KString* kfile_name(KFile* f);

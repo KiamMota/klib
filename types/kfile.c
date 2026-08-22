@@ -296,6 +296,22 @@ bool kfile_write(KFile *file, KBuffer *buf) {
   return kfile_write_raw(file, kbuffer_data(buf), kbuffer_len(buf));
 }
 
+bool kfile_free(KFile **file) {
+  if (!file || !*file)
+    return false;
+
+  if ((*file)->handle)
+    kfile_close(*file);
+
+  kstring_uninit(&(*file)->name);
+  kstring_uninit(&(*file)->path);
+
+  KFREE(*file);
+  *file = NULL;
+
+  return true;
+}
+
 bool kfile_write_raw(KFile *file, const void *buffer, usize size) {
   if (!file || !buffer || size == 0)
     return false;
