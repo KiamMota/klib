@@ -18,11 +18,21 @@ KBuffer kbuffer_init() {
   return buff_stack; 
 }
 
-KBuffer* kbuffer_from(void* data, usize sz) {
-  KBuffer* buff = kbuffer_new();
-  buff->_data_ = data;
-  buff->_size_ = sz;
-  return buff;
+KBuffer *kbuffer_from(void *data, usize sz) {
+    KBuffer *buf = KMALLOC(KBuffer);
+    if (!buf)
+        return NULL;
+    if (data) {
+        buf->_data_ = data;
+    } else {
+        buf->_data_ = KMALLOC_N(char, sz);
+        if (!buf->_data_) {
+            KFREE(buf);
+            return NULL;
+        }
+    }
+    buf->_size_ = sz;
+    return buf;
 }
 
 void kbuffer_free(KBuffer **buf) {

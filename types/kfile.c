@@ -1,6 +1,7 @@
 #include "kfile.h"
 #include "kbuffer.h"
 #include "kmalloc.h"
+#include "kprint.h"
 #include "kstring.h"
 #include "ktypes.h"
 
@@ -185,13 +186,10 @@ KFile *kfile_open(const char *path, KFileMode mode) {
 void kfile_close(KFile *file) {
   if (!file)
     return;
-
   if (file->handle) {
     fclose(file->handle);
     file->handle = NULL;
   }
-
-  KFREE(file);
 }
 size_t kfile_len(KFile *file) { return file->stat.size; }
 
@@ -266,10 +264,13 @@ KBuffer *kfile_read(KFile *file) {
   if (!file)
     return NULL;
 
+  kprintln("size antes do from: %zu", file->stat.size);
   KBuffer *buf = kbuffer_from(NULL, file->stat.size);
+  kprintln("buf: %p", (void *)buf);
   if (!buf)
     return NULL;
 
+  kprintln("data: %p len: %zu", kbuffer_data(buf), kbuffer_len(buf));
   if (!kfile_read_raw(file, kbuffer_data(buf), kbuffer_len(buf))) {
     kbuffer_free(&buf);
     return NULL;
@@ -281,12 +282,11 @@ KBuffer *kfile_read(KFile *file) {
 bool kfile_read_raw(KFile *file, void *buffer, usize size) {
   if (!file || !buffer || size == 0)
     return false;
-
   if (!file->handle)
     return false;
 
   usize read = fread(buffer, 1, size, file->handle);
-
+  kprintln("fread: leu %zu de %zu", read, size); // temporario
   return read == size;
 }
 
