@@ -1,0 +1,11 @@
+/home/kimas/projects/klib/b/CMakeFiles/klib.dir
+/home/kimas/projects/klib/b/CMakeFiles/client.dir
+/home/kimas/projects/klib/b/CMakeFiles/ksocket.dir
+/home/kimas/projects/klib/b/CMakeFiles/linklist.dir
+/home/kimas/projects/klib/b/CMakeFiles/server.dir
+/home/kimas/projects/klib/b/CMakeFiles/edit_cache.dir
+/home/kimas/projects/klib/b/CMakeFiles/rebuild_cache.dir
+/home/kimas/projects/klib/b/CMakeFiles/list_install_components.dir
+/home/kimas/projects/klib/b/CMakeFiles/install.dir
+/home/kimas/projects/klib/b/CMakeFiles/install/local.dir
+/home/kimas/projects/klib/b/CMakeFiles/install/strip.dir

@@ -1,0 +1,1 @@
+/usr/bin/cc -Wl,--dependency-file=CMakeFiles/server.dir/link.d CMakeFiles/server.dir/t/server.c.o -o server  libklib.a
