@@ -33,7 +33,7 @@ typedef struct {
   FILE *handle;
 } KFile;
 
-KFileStat kfilestat_new(const char *path);
+KFileStat kfilestat_init(const char *path);
 
 KFile *kfile_new();
 bool kfile_free(KFile **file);

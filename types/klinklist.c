@@ -13,9 +13,9 @@ KLinkedList *klinklist_new(void) {
 void klinklist_free(KLinkedList **list) {
   if (!list || !*list)
     return;
-  KNode *curr = (*list)->head;
+  KLinkedListNode *curr = (*list)->head;
   while (curr) {
-    KNode *next = curr->next;
+    KLinkedListNode *next = curr->next;
     KFREE(curr);
     curr = next;
   }
@@ -23,15 +23,15 @@ void klinklist_free(KLinkedList **list) {
   *list = NULL;
 }
 
-KNode *klinklist_new_node(void *data) {
-  KNode *node = KMALLOC(KNode);
+KLinkedListNode *klinklist_new_node(void *data) {
+  KLinkedListNode *node = KMALLOC(KLinkedListNode);
   node->data = data;
   node->next = NULL;
   node->prev = NULL;
   return node;
 }
 
-void klinklist_free_node(KNode **node) {
+void klinklist_free_node(KLinkedListNode **node) {
   if (!node || !*node)
     return;
   (*node)->next = NULL;
@@ -40,7 +40,7 @@ void klinklist_free_node(KNode **node) {
   *node = NULL;
 }
 
-bool klinklist_append(KLinkedList *list, KNode *node) {
+bool klinklist_append(KLinkedList *list, KLinkedListNode *node) {
   if (!list || !node)
     return false;
   if (!list->head) {
@@ -50,7 +50,7 @@ bool klinklist_append(KLinkedList *list, KNode *node) {
     list->len++;
     return true;
   }
-  KNode *curr = list->head;
+  KLinkedListNode *curr = list->head;
   while (curr->next)
     curr = curr->next;
   curr->next = node;
@@ -60,7 +60,7 @@ bool klinklist_append(KLinkedList *list, KNode *node) {
   return true;
 }
 
-bool klinklist_prepend(KLinkedList *list, KNode *node) {
+bool klinklist_prepend(KLinkedList *list, KLinkedListNode *node) {
   if (!list || !node)
     return false;
   node->prev = NULL;
@@ -72,7 +72,7 @@ bool klinklist_prepend(KLinkedList *list, KNode *node) {
   return true;
 }
 
-bool klinklist_remove(KLinkedList *list, KNode *node) {
+bool klinklist_remove(KLinkedList *list, KLinkedListNode *node) {
   if (!list || !node)
     return false;
   if (node->prev)
@@ -88,10 +88,10 @@ bool klinklist_remove(KLinkedList *list, KNode *node) {
 }
 
 /* Remove e retorna o último nó (sem liberar). */
-KNode *klinklist_pop(KLinkedList *list) {
+KLinkedListNode *klinklist_pop(KLinkedList *list) {
   if (!list || !list->head)
     return NULL;
-  KNode *curr = list->head;
+  KLinkedListNode *curr = list->head;
   while (curr->next)
     curr = curr->next;
   klinklist_remove(list, curr);
@@ -99,33 +99,33 @@ KNode *klinklist_pop(KLinkedList *list) {
 }
 
 /* Remove e retorna o primeiro nó (sem liberar). */
-KNode *klinklist_pop_front(KLinkedList *list) {
+KLinkedListNode *klinklist_pop_front(KLinkedList *list) {
   if (!list || !list->head)
     return NULL;
-  KNode *node = list->head;
+  KLinkedListNode *node = list->head;
   klinklist_remove(list, node);
   return node;
 }
 
-KNode *klinklist_get(KLinkedList *list, size_t index) {
+KLinkedListNode *klinklist_get(KLinkedList *list, size_t index) {
   if (!list || index >= list->len)
     return NULL;
-  KNode *curr = list->head;
+  KLinkedListNode *curr = list->head;
   for (size_t i = 0; i < index; i++)
     curr = curr->next;
   return curr;
 }
 
-KNode *klinklist_first(KLinkedList *list) {
+KLinkedListNode *klinklist_first(KLinkedList *list) {
   if (!list)
     return NULL;
   return list->head;
 }
 
-KNode *klinklist_last(KLinkedList *list) {
+KLinkedListNode *klinklist_last(KLinkedList *list) {
   if (!list || !list->head)
     return NULL;
-  KNode *curr = list->head;
+  KLinkedListNode *curr = list->head;
   while (curr->next)
     curr = curr->next;
   return curr;
@@ -143,10 +143,10 @@ bool klinklist_empty(KLinkedList *list) {
   return list->len == 0;
 }
 
-KNode *klinklist_find(KLinkedList *list, void *data) {
+KLinkedListNode *klinklist_find(KLinkedList *list, void *data) {
   if (!list)
     return NULL;
-  KNode *curr = list->head;
+  KLinkedListNode *curr = list->head;
   while (curr) {
     if (curr->data == data)
       return curr;
@@ -162,9 +162,9 @@ bool klinklist_contains(KLinkedList *list, void *data) {
 void klinklist_clear(KLinkedList *list) {
   if (!list)
     return;
-  KNode *curr = list->head;
+  KLinkedListNode *curr = list->head;
   while (curr) {
-    KNode *next = curr->next;
+    KLinkedListNode *next = curr->next;
     KFREE(curr);
     curr = next;
   }
@@ -175,8 +175,8 @@ void klinklist_clear(KLinkedList *list) {
 void klinklist_reverse(KLinkedList *list) {
   if (!list || list->len <= 1)
     return;
-  KNode *curr = list->head;
-  KNode *tmp = NULL;
+  KLinkedListNode *curr = list->head;
+  KLinkedListNode *tmp = NULL;
   while (curr) {
     tmp = curr->prev;
     curr->prev = curr->next;

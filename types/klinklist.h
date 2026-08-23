@@ -3,37 +3,38 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+
 typedef struct KNodeList {
   void* data;
   struct KNodeList* next;
   struct KNodeList* prev;
-} KNode;
+} KLinkedListNode;
 
 typedef struct {
-  KNode* head;
+  KLinkedListNode* head;
   size_t len;
 } KLinkedList;
 KLinkedList *klinklist_new(void);
 void klinklist_free(KLinkedList **list);
 
-KNode *klinklist_new_node(void *data);
-void klinklist_free_node(KNode **node);
+KLinkedListNode *klinklist_new_node(void *data);
+void klinklist_free_node(KLinkedListNode **node);
 
-bool klinklist_append(KLinkedList *list, KNode *node);
-bool klinklist_prepend(KLinkedList *list, KNode *node);
+bool klinklist_append(KLinkedList *list, KLinkedListNode *node);
+bool klinklist_prepend(KLinkedList *list, KLinkedListNode *node);
 
-bool klinklist_remove(KLinkedList *list, KNode *node);
-KNode *klinklist_pop(KLinkedList *list);
-KNode *klinklist_pop_front(KLinkedList *list);
+bool klinklist_remove(KLinkedList *list, KLinkedListNode *node);
+KLinkedListNode *klinklist_pop(KLinkedList *list);
+KLinkedListNode *klinklist_pop_front(KLinkedList *list);
 
-KNode *klinklist_get(KLinkedList *list, size_t index);
-KNode *klinklist_first(KLinkedList *list);
-KNode *klinklist_last(KLinkedList *list);
+KLinkedListNode *klinklist_get(KLinkedList *list, size_t index);
+KLinkedListNode *klinklist_first(KLinkedList *list);
+KLinkedListNode *klinklist_last(KLinkedList *list);
 
 size_t klinklist_len(KLinkedList *list);
 bool klinklist_empty(KLinkedList *list);
 
-KNode *klinklist_find(KLinkedList *list, void *data);
+KLinkedListNode *klinklist_find(KLinkedList *list, void *data);
 bool klinklist_contains(KLinkedList *list, void *data);
 
 void klinklist_clear(KLinkedList *list);

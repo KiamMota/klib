@@ -38,7 +38,7 @@ static const char *_kfile_basename(const char *path) {
   return slash ? slash + 1 : path;
 }
 
-KFileStat kfilestat_new(const char *path) {
+KFileStat kfilestat_init(const char *path) {
   KFileStat result = {0};
 
   if (!path)
@@ -131,7 +131,7 @@ KFile *kfile_from(const char *path) {
     return NULL;
   }
   file->path = kstring_from_s(path);
-  file->stat = kfilestat_new(path);
+  file->stat = kfilestat_init(path);
   return file;
 }
 
@@ -178,7 +178,7 @@ KFile *kfile_open(const char *path, KFileMode mode) {
     return NULL;
   }
 
-  file->stat = kfilestat_new(path);
+  file->stat = kfilestat_init(path);
 
   return file;
 }
@@ -227,7 +227,7 @@ bool kfile_create(KFile *file) {
 
   fclose(handle);
 
-  file->stat = kfilestat_new(path);
+  file->stat = kfilestat_init(path);
 
   return true;
 }
@@ -255,7 +255,7 @@ bool kfile_delete(KFile *file) {
 #endif
 
   if (success)
-    file->stat = kfilestat_new(path);
+    file->stat = kfilestat_init(path);
 
   return success;
 }
@@ -326,7 +326,7 @@ bool kfile_write_raw(KFile *file, const void *buffer, usize size) {
 
   fflush(file->handle);
 
-  file->stat = kfilestat_new(kstring_cstr(&file->path));
+  file->stat = kfilestat_init(kstring_cstr(&file->path));
 
   return true;
 }
@@ -354,7 +354,7 @@ bool kfile_rename(KFile *file, const char *path) {
   kstring_clear(&file->name);
   kstring_push_str(&file->name, name);
 
-  file->stat = kfilestat_new(path);
+  file->stat = kfilestat_init(path);
 
   return true;
 }

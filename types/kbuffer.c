@@ -36,6 +36,9 @@ KBuffer *kbuffer_from(void *data, usize sz) {
 }
 
 void kbuffer_free(KBuffer **buf) {
+    if (*buf == NULL) {
+      return;
+    }
     if (!buf || !*buf)
         return;
     KFREE((*buf)->_data_);

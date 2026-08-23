@@ -13,15 +13,15 @@ int main(void) {
     int b = 20;
     int c = 30;
 
-    KNode *node1 = klinklist_new_node(&a);
-    KNode *node2 = klinklist_new_node(&b);
-    KNode *node3 = klinklist_new_node(&c);
+    KLinkedListNode *node1 = klinklist_new_node(&a);
+    KLinkedListNode *node2 = klinklist_new_node(&b);
+    KLinkedListNode *node3 = klinklist_new_node(&c);
 
     klinklist_append(list, node1);
     klinklist_append(list, node2);
     klinklist_append(list, node3);
 
-    KNode *curr = list->head;
+    KLinkedListNode *curr = list->head;
 
     while (curr) {
         printf("%d\n", *(int *)curr->data);
